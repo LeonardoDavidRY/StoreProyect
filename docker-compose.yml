@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  ordenes:
+    build:
+      context: ./ordenes
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/microservicio
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  productos:
+    build:
+      context: ./productos
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/microservicio
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  stock:
+    build:
+      context: ./stock
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/microservicio
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  usuarios:
+    build:
+      context: ./usuarios
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/microservicio
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ordenes
+      - productos
+      - stock
+      - usuarios
+    environment:
+      SPRING_CLOUD_GATEWAY_ROUTES: # Configura tus rutas aquí
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: microservicio
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
