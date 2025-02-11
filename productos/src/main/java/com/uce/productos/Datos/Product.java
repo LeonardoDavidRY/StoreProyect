@@ -17,16 +17,29 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    private String nombre;
+
+    @Column(nullable = false)
+    private float precio;
 
     @Column
-    private Integer stock;
+    private String descripcion;
 
+    @Column(nullable = false)
+    private Integer cantidad;
+
+    @Column
+    private String estado;
+
+    @Column
+    private String proveedor;
+
+    @Column(nullable = false, unique = true)
+    private String codigo;
 }

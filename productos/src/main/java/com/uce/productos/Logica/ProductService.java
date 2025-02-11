@@ -24,6 +24,10 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    public Optional<Product> getProductByCodigo(String codigo) {
+        return productRepository.findByCodigo(codigo);
+    }
+
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
@@ -31,5 +35,4 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
-
 }
