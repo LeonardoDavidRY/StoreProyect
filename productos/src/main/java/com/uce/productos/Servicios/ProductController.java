@@ -7,7 +7,7 @@ import com.uce.productos.Logica.ProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/productos")
 public class ProductController {
     private final ProductService productService;
 

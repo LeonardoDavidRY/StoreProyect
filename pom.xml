@@ -8,6 +8,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.2</version>
 	</parent>
+	
 
 	<groupId>com.uce</groupId>
 	<artifactId>store</artifactId>
@@ -24,7 +25,6 @@
 		<module>productos</module>
 		<module>stock</module>
 		<module>usuarios</module>
-		<module>gateway</module>
 	</modules>
 
 	<dependencies>
