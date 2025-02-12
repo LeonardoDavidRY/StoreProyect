@@ -24,7 +24,6 @@
 		<module>productos</module>
 		<module>stock</module>
 		<module>usuarios</module>
-		<module>gateway</module>
 	</modules>
 
 	<dependencies>
