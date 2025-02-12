@@ -82,20 +82,5 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       MAVEN_OPTS: "-DskipTests"
 
-  gateway:
-    build:
-      context: ./gateway
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - ordenes
-      - productos
-      - stock
-      - usuarios
-    environment:
-      SPRING_CLOUD_GATEWAY_ROUTES: # Configura tus rutas aquí
-      MAVEN_OPTS: "-DskipTests"
-
 volumes:
   postgres_data:
