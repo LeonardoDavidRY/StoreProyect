@@ -18,6 +18,37 @@ services:
       timeout: 5s
       retries: 5
 
+  eureka-server:
+    build:
+      context: C:/Users/User/Desktop/ProbarSiVale/Discovery/discovery
+      dockerfile: Dockerfile
+    container_name: eureka_server
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_APPLICATION_NAME: eureka-server
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
+      EUREKA_CLIENT_FETCH_REGISTRY: "false"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://eureka-server:8761/"] 
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api-gateway:
+    build:
+      context: C:/Users/User/Desktop/ProbarSiVale/gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: api-gateway
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SERVER_PORT: 8080
+
   ordenes:
     build:
       context: ./ordenes
@@ -27,11 +58,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      eureka-server:
+        condition: service_healthy
     environment:
+      SPRING_APPLICATION_NAME: ordenes
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/microservicio
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
       MAVEN_OPTS: "-DskipTests"
 
   productos:
@@ -43,11 +78,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      eureka-server:
+        condition: service_healthy
     environment:
+      SPRING_APPLICATION_NAME: productos
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/microservicio
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
       MAVEN_OPTS: "-DskipTests"
 
   stock:
@@ -59,11 +98,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      eureka-server:
+        condition: service_healthy
     environment:
+      SPRING_APPLICATION_NAME: stock
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/microservicio
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
       MAVEN_OPTS: "-DskipTests"
 
   usuarios:
@@ -75,11 +118,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      eureka-server:
+        condition: service_healthy
     environment:
+      SPRING_APPLICATION_NAME: usuarios
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/microservicio
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
       MAVEN_OPTS: "-DskipTests"
 
 volumes:
