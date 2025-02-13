@@ -7,7 +7,7 @@ import com.uce.stock.Logica.StockService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/stocks")
+@RequestMapping("/api/stock")
 public class StockController {
     private final StockService stockService;
 
